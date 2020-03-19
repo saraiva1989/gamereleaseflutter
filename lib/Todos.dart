@@ -13,7 +13,7 @@ GamesModel _gamesModel;
 bool _progressBarActive = true;
 bool _moreItem = false;
 bool _retornoDetalhe;
-var _consoleFilter;
+var _filter;
 //header api
 Map<String, String> get headers => {"CHAVE": "576DJKH09KL2342VCXBZ09B"};
 TextEditingController plataformaController = TextEditingController();
@@ -33,7 +33,7 @@ class _TodosState extends State<Todos> {
 
   void telaFiltro() async {
     //recupera dados do pop da tela de filtro
-    _consoleFilter = await Navigator.push(
+    _filter = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => Filtro()));
     setState(() {
       _progressBarActive = true;
@@ -43,14 +43,27 @@ class _TodosState extends State<Todos> {
 
   String montarUrl(bool loadMore, bool filter) {
     if (loadMore) {
+      if (_gamesModel.next == null) {
+        setState(() {
+          _moreItem = false;
+        });
+      }
       var next = _gamesModel.next.replaceAll("&", "%26");
       return _urlBase =
           "http://arcadaweb.com.br/api/gamerelease/listagames.php?next=$next";
     }
-    if (filter && _consoleFilter != null && _consoleFilter != "") {
-      return "http://arcadaweb.com.br/api/gamerelease/listagames.php?plataforma=$_consoleFilter";
+    if (filter && _filter != null && _filter != "") {
+      return "http://arcadaweb.com.br/api/gamerelease/listagames.php?$_filter";
     } else {
-      _urlBase = "http://arcadaweb.com.br/api/gamerelease/listagames.php?";
+      DateTime dateTimeInicio =
+          new DateTime.now().add(new Duration(days: -365));
+      DateTime dateTimeFim = new DateTime.now();
+      String dataInicio =
+          "${dateTimeInicio.year.toString()}-${dateTimeInicio.month.toString().padLeft(2, '0')}-${dateTimeInicio.day.toString().padLeft(2, '0')}";
+      String dataFim =
+          "${dateTimeFim.year.toString()}-${dateTimeFim.month.toString().padLeft(2, '0')}-${dateTimeFim.day.toString().padLeft(2, '0')}";
+      _urlBase =
+          "http://arcadaweb.com.br/api/gamerelease/listagames.php?datainicio=$dataInicio&datafim=$dataFim&order=-released";
       return _urlBase;
     }
   }
@@ -58,6 +71,7 @@ class _TodosState extends State<Todos> {
   Future<Null> getGames(bool loadMore, bool filter) async {
     //biblioteca terceiro - http: ^0.12.0+4
     String url = montarUrl(loadMore, filter);
+
     http.Response response = await http.get(url, headers: headers);
     Map<String, dynamic> retorno = json.decode(response.body);
     //deserializando o json para minha model
@@ -164,7 +178,8 @@ class _TodosState extends State<Todos> {
 
   Widget _jogoCard(BuildContext context, int index) {
     String nome = _listaJogos.elementAt(index).nome;
-    String background = _listaJogos.elementAt(index).background;
+    String background = _listaJogos.elementAt(index).background ??
+        "https://arcadaweb.com.br/img/cardnotfound.jpg";
     //var valor = _listaJogos.values.elementAt(index)["buy"];
 
     return Container(
