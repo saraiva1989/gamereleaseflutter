@@ -178,6 +178,7 @@ class _TodosState extends State<Todos> {
 
   Widget _jogoCard(BuildContext context, int index) {
     String nome = _listaJogos.elementAt(index).nome;
+    String data = _listaJogos.elementAt(index).data;
     String background = _listaJogos.elementAt(index).background ??
         "https://arcadaweb.com.br/img/cardnotfound.jpg";
     //var valor = _listaJogos.values.elementAt(index)["buy"];
@@ -212,11 +213,11 @@ class _TodosState extends State<Todos> {
                     child: Container(
                         //break line
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child: Text(nome,
+                        child: Text("$nome",
                             style: TextStyle(
                                 fontSize: 30,
                                 backgroundColor:
-                                    Color.fromRGBO(0, 0, 0, 0.4)))))
+                                    Color.fromRGBO(0, 0, 0, 0.4))))),
               ],
             ),
           ),
