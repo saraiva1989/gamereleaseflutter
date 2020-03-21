@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'Todos.dart';
 import 'model/GamesModel.dart';
@@ -25,6 +25,7 @@ class JogoDetalhe extends StatefulWidget {
 }
 
 class _JogoDetalheState extends State<JogoDetalhe> {
+  bool _progressBarActive = true;
   List<NetworkImage> _listaFotos = List<NetworkImage>();
   voltar() {
     Navigator.pop(context);
@@ -50,6 +51,7 @@ class _JogoDetalheState extends State<JogoDetalhe> {
           }
         }
       }
+      _progressBarActive = false;
     });
   }
 
@@ -68,7 +70,8 @@ class _JogoDetalheState extends State<JogoDetalhe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
+        body: _progressBarActive == true
+            ? _loading(context) : Stack(
       children: <Widget>[
         SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -104,11 +107,28 @@ class _JogoDetalheState extends State<JogoDetalhe> {
                       },
                     )),
                 _sliderImage(context),
+                _jogo.videoyoutube == "https://www.youtube.com/embed/" ? Text("") : Container(
+                  height: 250,
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
+                  child: WebView(
+                    initialUrl: Uri.dataFromString(
+                            '<iframe width="100%" height="100%" src="${_jogo.videoyoutube}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+                            mimeType: 'text/html')
+                        .toString(),
+                    javascriptMode: JavascriptMode.unrestricted,
+                  ),
+                )
               ],
             )),
       ],
     ));
   }
+
+   Widget _loading(BuildContext context) {
+    return Container(
+        alignment: Alignment.center, child: CircularProgressIndicator());
+  }
+
 
   Widget _listaPlataforma(BuildContext context, int index) {
     var plataforma = _jogo.plataformas.elementAt(index);
@@ -132,8 +152,8 @@ class _JogoDetalheState extends State<JogoDetalhe> {
             }));
   }
 
-    //necessário ir ao diretorio do ios e instalar o pod
-    //cd ios | pod install
+  //necessário ir ao diretorio do ios e instalar o pod
+  //cd ios | pod install
   _carregaUrlWebView(String url) async {
     if (await canLaunch(url)) {
       await launch(url, forceWebView: true);
@@ -197,7 +217,6 @@ class _JogoDetalheState extends State<JogoDetalhe> {
         showIndicator: true,
         indicatorBgPadding: 7.0,
         images: _listaFotos,
-        
       ),
     ));
   }
