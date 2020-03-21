@@ -39,6 +39,8 @@ class Retorno {
   String descricaohtml;
   String descricao;
   String website;
+  String developer;
+  String publishers;
   List<Plataforma> plataformas;
   List<Loja> lojas;
   List<Foto> fotos;
@@ -59,6 +61,8 @@ class Retorno {
       this.descricaohtml,
       this.descricao,
       this.website,
+      this.developer,
+      this.publishers,
       this.plataformas,
       this.lojas,
       this.fotos,
@@ -88,7 +92,9 @@ class Retorno {
         score: parsedJson['score'], 
         descricaohtml: parsedJson['descricaohtml'], 
         descricao: parsedJson['descricao'], 
-        website: parsedJson['website'], 
+        website: parsedJson['website'],
+        developer: parsedJson['developer'],
+        publishers: parsedJson['publishers'], 
         generos: generoList,
         plataformas: plataformaList,
         lojas: lojaList,
@@ -104,7 +110,7 @@ class Genero {
   Genero({this.id, this.nome});
 
   factory Genero.fromJson(Map<String, dynamic> parsedJson) {
-    return Genero(id: parsedJson['id'], nome: parsedJson['name']);
+    return Genero(id: parsedJson['id'], nome: parsedJson['nome']);
   }
 }
 
@@ -122,11 +128,12 @@ class Foto {
 class Loja {
   int id;
   String nome;
+  String url;
 
-  Loja({this.id, this.nome});
+  Loja({this.id, this.nome, this.url});
 
   factory Loja.fromJson(Map<String, dynamic> parsedJson) {
-    return Loja(id: parsedJson['id'], nome: parsedJson['name']);
+    return Loja(id: parsedJson['id'], nome: parsedJson['nome'], url: parsedJson['url']);
   }
 }
 
@@ -137,6 +144,6 @@ class Plataforma {
   Plataforma({this.id, this.nome});
 
   factory Plataforma.fromJson(Map<String, dynamic> parsedJson) {
-    return Plataforma(id: parsedJson['id'], nome: parsedJson['name']);
+    return Plataforma(id: parsedJson['id'], nome: parsedJson['nome']);
   }
 }
