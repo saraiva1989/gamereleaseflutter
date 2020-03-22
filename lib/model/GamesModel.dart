@@ -12,7 +12,9 @@ class GamesModel {
 
     factory GamesModel.fromJson(Map<String, dynamic> parsedJson) {
     var retornoRetorno = parsedJson['retorno'] as List;
-    List<Retorno> retornoList = retornoRetorno.map((i) => Retorno.fromJson(i)).toList();
+    List<Retorno> retornoList = List<Retorno>();
+    if (retornoRetorno != null)
+      retornoList = retornoRetorno.map((i) => Retorno.fromJson(i)).toList();
 
     return GamesModel(
         error: parsedJson['error'], 

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 String _console = "";
 TextEditingController _dataInicio = TextEditingController();
 TextEditingController _dataFim = TextEditingController();
+TextEditingController _nome = TextEditingController();
 
 class Filtro extends StatefulWidget {
   @override
@@ -14,17 +15,17 @@ class _FiltroState extends State<Filtro> {
   @override
   void initState() {
     super.initState();
-    if(_dataInicio.text == ""){
+    if (_dataInicio.text == "") {
       _dataInicio.text = gerarData(0);
     }
-    if(_dataFim.text == ""){
+    if (_dataFim.text == "") {
       _dataFim.text = gerarData(31);
     }
   }
 
-  String gerarData(int dias){
-    DateTime data = new DateTime.now().add(new Duration(days:dias));
-    return "${data.year.toString()}-${data.month.toString().padLeft(2,'0')}-${data.day.toString().padLeft(2,'0')}";
+  String gerarData(int dias) {
+    DateTime data = new DateTime.now().add(new Duration(days: dias));
+    return "${data.year.toString()}-${data.month.toString().padLeft(2, '0')}-${data.day.toString().padLeft(2, '0')}";
   }
 
   formatarData(data) {
@@ -33,8 +34,13 @@ class _FiltroState extends State<Filtro> {
   }
 
   voltar() {
-    String filtro =
-        "order=released&datainicio=${_dataInicio.text ?? ""}&datafim=${_dataFim.text ?? ""}&plataforma=$_console";
+    String filtro;
+    if (_nome.text != null && _nome.text != "") {
+      filtro = "order=released&nome=${_nome.text}";
+    } else {
+      filtro =
+          "order=released&datainicio=${_dataInicio.text ?? ""}&datafim=${_dataFim.text ?? ""}&plataforma=$_console";
+    }
     Navigator.pop(context, filtro);
     //Navigator.pushReplacementNamed(context, "home"));
   }
@@ -53,24 +59,37 @@ class _FiltroState extends State<Filtro> {
             padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
             height: 100,
             child: Text(
-              "Filtro!",
+              "Filter!",
               style: TextStyle(fontSize: 30, color: Colors.white),
             ),
           ),
           Container(child: _mydropdown(context)),
-          Container(child: _campoData(context, _dataInicio, "Data Inicio")),
-          Container(child: _campoData(context, _dataFim, "Data Fim")),
+          Container(child: _campoData(context, _dataInicio, "Start date")),
+          Container(child: _campoData(context, _dataFim, "End date")),
+          Container(
+            child: _pesquisaNome(context),
+          ),
           Container(
               padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
               height: 60,
               child: FlatButton(
                 onPressed: () => voltar(),
-                child: Text("Filtrar"),
+                child: Text("Search"),
                 color: Color.fromRGBO(30, 30, 30, 1),
               )),
         ],
       ),
     ));
+  }
+
+  Widget _pesquisaNome(BuildContext context) {
+    return TextFormField(
+      controller: _nome,
+      keyboardType: TextInputType.datetime,
+      decoration: InputDecoration(
+        labelText: "Optional: Input game name",
+      ),
+    );
   }
 
   Widget _campoData(
