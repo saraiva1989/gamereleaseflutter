@@ -112,6 +112,17 @@ class Genero {
   factory Genero.fromJson(Map<String, dynamic> parsedJson) {
     return Genero(id: parsedJson['id'], nome: parsedJson['nome']);
   }
+
+  String retornaString(List<Genero> genero){
+    String retorno = "";
+    if (genero.length > 0){
+      for (var item in genero){
+        
+        genero.last.id != item.id ? retorno += "${item.nome}, " : retorno += "${item.nome}";
+      }
+      return retorno;
+    }
+  }
 }
 
 class Foto {

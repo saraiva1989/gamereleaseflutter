@@ -34,7 +34,7 @@ class _FiltroState extends State<Filtro> {
 
   voltar() {
     String filtro =
-        "datainicio=${_dataInicio.text ?? ""}&datafim=${_dataFim.text ?? ""}&plataforma=$_console";
+        "order=released&datainicio=${_dataInicio.text ?? ""}&datafim=${_dataFim.text ?? ""}&plataforma=$_console";
     Navigator.pop(context, filtro);
     //Navigator.pushReplacementNamed(context, "home"));
   }
