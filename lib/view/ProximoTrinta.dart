@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:game_release/helper/ValidaConexao.dart';
 import 'package:game_release/widget/cardGame.dart';
 import 'package:game_release/widget/loading.dart';
+import 'package:game_release/widget/semConexao.dart';
 //import 'package:gradient_text/gradient_text.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'Filtro.dart';
 import '../model/GamesModel.dart';
 
 String _urlBase;
@@ -14,7 +15,6 @@ GamesModel _gamesModel;
 bool _progressBarActive = true;
 bool _moreItem = false;
 bool _retornoDetalhe;
-var _filter;
 //header api
 Map<String, String> get headers => {"CHAVE": "576DJKH09KL2342VCXBZ09B"};
 TextEditingController plataformaController = TextEditingController();
@@ -31,6 +31,7 @@ class ProximoTrinta extends StatefulWidget {
 class _ProximoTrintaState extends State<ProximoTrinta> {
   //responsavel por identificar o scroll da pagina;
   ScrollController scrollController = ScrollController();
+  bool _statusConexao = true;
 
   String montarUrl(bool loadMore, bool filter) {
     if (loadMore) {
@@ -56,6 +57,13 @@ class _ProximoTrintaState extends State<ProximoTrinta> {
   }
 
   Future<Null> getGames(bool loadMore, bool filter) async {
+    if (!await ValidaConexao.status()) {
+      setState(() {
+        _progressBarActive = false;
+        _statusConexao = false;
+      });
+      return;
+    }
     String url = montarUrl(loadMore, filter);
 
     http.Response response = await http.get(url, headers: headers);
@@ -71,7 +79,7 @@ class _ProximoTrintaState extends State<ProximoTrinta> {
       _listaJogos = _gamesModel.retorno;
     });
   }
-
+  
   @override
   void initState() {
     super.initState();
@@ -97,6 +105,8 @@ class _ProximoTrintaState extends State<ProximoTrinta> {
         //valida se mosta o progressbar ou monta a coluna
         body: _progressBarActive == true
             ? loading(context)
+            : _statusConexao == false 
+            ? semConexao()
             : Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[

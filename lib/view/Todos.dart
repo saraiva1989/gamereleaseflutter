@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:game_release/helper/ValidaConexao.dart';
 import 'package:game_release/widget/cardGame.dart';
 import 'package:game_release/widget/loading.dart';
+import 'package:game_release/widget/semConexao.dart';
 //import 'package:gradient_text/gradient_text.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -31,6 +33,7 @@ class Todos extends StatefulWidget {
 class _TodosState extends State<Todos> {
   //responsavel por identificar o scroll da pagina;
   ScrollController scrollController = ScrollController();
+  bool _statusConexao = true;
 
   void telaFiltro() async {
     //recupera dados do pop da tela de filtro
@@ -69,6 +72,13 @@ class _TodosState extends State<Todos> {
   }
 
   Future<Null> getGames(bool loadMore, bool filter) async {
+    if (!await ValidaConexao.status()) {
+      setState(() {
+        _progressBarActive = false;
+        _statusConexao = false;
+      });
+      return;
+    }
     //biblioteca terceiro - http: ^0.12.0+4
     String url = montarUrl(loadMore, filter);
 
@@ -114,6 +124,8 @@ class _TodosState extends State<Todos> {
         //valida se mosta o progressbar ou monta a coluna
         body: _progressBarActive == true
             ? loading(context)
+            : _statusConexao == false
+            ? semConexao()
             : Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[

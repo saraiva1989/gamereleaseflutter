@@ -1,15 +1,14 @@
 import 'dart:convert';
 //import 'dart:html' as html;
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:game_release/helper/ValidaConexao.dart';
 import 'package:game_release/widget/loading.dart';
-
+import 'package:game_release/widget/semConexao.dart';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 import 'Todos.dart';
 import '../model/GamesModel.dart';
 
@@ -27,12 +26,20 @@ class JogoDetalhe extends StatefulWidget {
 
 class _JogoDetalheState extends State<JogoDetalhe> {
   bool _progressBarActive = true;
+  bool _statusConexao = true;
   List<NetworkImage> _listaFotos = List<NetworkImage>();
   voltar() {
     Navigator.pop(context);
   }
 
   Future<Null> getGameDetalhe() async {
+    if (!await ValidaConexao.status()) {
+      setState(() {
+        _progressBarActive = false;
+        _statusConexao = false;
+      });
+      return;
+    }
     //biblioteca terceiro - http: ^0.12.0+4
     String url =
         "http://arcadaweb.com.br/api/gamerelease/listagames.php?id=${_jogo.id}";
@@ -73,31 +80,34 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     return Scaffold(
         body: _progressBarActive == true
             ? loading(context)
-            : Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Column(
-                        children: <Widget>[
-                          _header(context),
-                          _jogo.descricao != "" ? _descricao() : Text(""),
-                          _cardPlataformaLoja(
-                              "Plataforms: ", _jogo.plataformas),
-                          _cardPlataformaLoja("Stores: ", _jogo.lojas),
-                          _sliderImage(context),
-                          _jogo.videoyoutube == "https://www.youtube.com/embed/"
-                              ? Text("")
-                              : _videoYoutube(),
-                        ],
-                      )),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(10, 30, 0, 0),
-                    child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
-                        onPressed: () => voltar()),
-                  ),
-                ],
-              ));
+            : _statusConexao == false
+                ? semConexao()
+                : Stack(
+                    children: <Widget>[
+                      SingleChildScrollView(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: Column(
+                            children: <Widget>[
+                              _header(context),
+                              _jogo.descricao != "" ? _descricao() : Text(""),
+                              _cardPlataformaLoja(
+                                  "Plataforms: ", _jogo.plataformas),
+                              _cardPlataformaLoja("Stores: ", _jogo.lojas),
+                              _sliderImage(context),
+                              _jogo.videoyoutube ==
+                                      "https://www.youtube.com/embed/"
+                                  ? Text("")
+                                  : _videoYoutube(),
+                            ],
+                          )),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 30, 0, 0),
+                        child: IconButton(
+                            icon: Icon(Icons.arrow_back_ios),
+                            onPressed: () => voltar()),
+                      ),
+                    ],
+                  ));
   }
 
   Widget _videoYoutube() {
@@ -289,7 +299,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     if (_jogo.nota >= 1.5 && _jogo.nota < 2) {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star_half),
         Icon(Icons.star_border),
@@ -299,7 +312,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     if (_jogo.nota >= 2 && _jogo.nota < 2.5) {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star),
         Icon(Icons.star_border),
@@ -309,7 +325,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     if (_jogo.nota >= 2.5 && _jogo.nota < 3) {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star),
         Icon(Icons.star_half),
@@ -319,7 +338,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     if (_jogo.nota >= 3 && _jogo.nota < 3.5) {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star),
         Icon(Icons.star),
@@ -329,7 +351,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     if (_jogo.nota >= 3.5 && _jogo.nota < 4) {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star),
         Icon(Icons.star),
@@ -339,7 +364,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     if (_jogo.nota >= 4 && _jogo.nota < 4.5) {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star),
         Icon(Icons.star),
@@ -349,7 +377,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     if (_jogo.nota >= 4.5 && _jogo.nota < 5) {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star),
         Icon(Icons.star),
@@ -358,7 +389,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
       ]);
     } else {
       return Row(children: <Widget>[
-        Text("Rating: ", style: TextStyle(fontSize: 18,)),
+        Text("Rating: ",
+            style: TextStyle(
+              fontSize: 18,
+            )),
         Icon(Icons.star),
         Icon(Icons.star),
         Icon(Icons.star),

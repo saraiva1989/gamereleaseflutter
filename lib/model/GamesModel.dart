@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 class GamesModel {
   String error;
@@ -122,8 +121,8 @@ class Genero {
         
         genero.last.id != item.id ? retorno += "${item.nome}, " : retorno += "${item.nome}";
       }
-      return retorno;
     }
+    return retorno;
   }
 }
 

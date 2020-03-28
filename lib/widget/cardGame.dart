@@ -4,7 +4,6 @@ import 'package:game_release/view/JogoDetalhe.dart';
 
 Widget cardGame(BuildContext context, int index,List<Retorno> _listaJogos) {
   String nome = _listaJogos.elementAt(index).nome;
-  String data = _listaJogos.elementAt(index).data;
   String background = _listaJogos.elementAt(index).background ??
       "https://arcadaweb.com.br/img/cardnotfound.jpg";
   //var valor = _listaJogos.values.elementAt(index)["buy"];

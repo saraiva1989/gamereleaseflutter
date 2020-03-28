@@ -14,6 +14,7 @@ class Favoritos extends StatefulWidget {
 }
 
 class _FavoritosState extends State<Favoritos> {
+  //TODO: Recuperar dados que foram salvos no banco de dados.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

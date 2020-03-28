@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
 
 //tab bar click
-  Widget onTabTapped(int index) {
+  onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
