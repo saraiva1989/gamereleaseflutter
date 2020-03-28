@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'Favoritos.dart';
-import 'ProximoTrinta.dart';
-import 'Todos.dart';
+import 'view/Favoritos.dart';
+import 'view/ProximoTrinta.dart';
+import 'view/Todos.dart';
 
 bool _retornoDetalhe = false;
 
@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
         return Todos(_retornoDetalhe);
         break;
       case 1:
-        return ProximoTrinta("teste proximo trinta");
+        return ProximoTrinta(_retornoDetalhe);
         break;
       case 2:
         return Favoritos("teste favoritos");
@@ -51,14 +51,14 @@ class _HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.games),
-            title: new Text('Jogos'),
+            title: new Text('Recent release'),
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.calendar_today),
-            title: new Text('Próximo 30 dias'),
+            title: new Text('Next 30 days'),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.star), title: Text('Favorito'))
+              icon: Icon(Icons.star), title: Text('My Favorites'))
         ],
       ),
     );

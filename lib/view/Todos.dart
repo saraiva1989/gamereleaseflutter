@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:game_release/widget/cardGame.dart';
+import 'package:game_release/widget/loading.dart';
 //import 'package:gradient_text/gradient_text.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'Filtro.dart';
-import 'JogoDetalhe.dart';
-import 'model/GamesModel.dart';
+import '../model/GamesModel.dart';
 
 String _urlBase;
 List<Retorno> _listaJogos;
@@ -55,8 +56,7 @@ class _TodosState extends State<Todos> {
     if (filter && _filter != null && _filter != "") {
       return "http://arcadaweb.com.br/api/gamerelease/listagames.php?$_filter";
     } else {
-      DateTime dateTimeInicio =
-          new DateTime.now().add(new Duration(days: -365));
+      DateTime dateTimeInicio = new DateTime.now().add(new Duration(days: -92));
       DateTime dateTimeFim = new DateTime.now();
       String dataInicio =
           "${dateTimeInicio.year.toString()}-${dateTimeInicio.month.toString().padLeft(2, '0')}-${dateTimeInicio.day.toString().padLeft(2, '0')}";
@@ -91,6 +91,7 @@ class _TodosState extends State<Todos> {
   @override
   void initState() {
     super.initState();
+    _progressBarActive = true;
     if (_retornoDetalhe) return;
     getGames(false, false);
     //responsavel para identificar se chegou ao fim do scroll da lista
@@ -98,6 +99,7 @@ class _TodosState extends State<Todos> {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         setState(() {
+          _progressBarActive = false;
           _moreItem = true;
         });
         getGames(true, false);
@@ -111,7 +113,7 @@ class _TodosState extends State<Todos> {
         backgroundColor: Color.fromRGBO(26, 26, 26, 1),
         //valida se mosta o progressbar ou monta a coluna
         body: _progressBarActive == true
-            ? _loading(context)
+            ? loading(context)
             : Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
@@ -133,13 +135,13 @@ class _TodosState extends State<Todos> {
                               controller: scrollController,
                               itemCount: _listaJogos.length,
                               itemBuilder: (context, index) {
-                                return _jogoCard(context, index);
+                                return cardGame(context, index, _listaJogos);
                               },
                             ),
                     ),
                   ),
                   _moreItem == true
-                      ? _loading(context)
+                      ? loading(context)
                       : Text(
                           "",
                           style: TextStyle(fontSize: 0.1),
@@ -156,7 +158,7 @@ class _TodosState extends State<Todos> {
           padding: EdgeInsets.fromLTRB(15, 50, 0, 0),
           height: 100,
           child: Text(
-            "Todos os Jogos!",
+            "Recent Release!",
             style: TextStyle(fontSize: 30, color: Colors.white),
           ),
         ),
@@ -174,59 +176,6 @@ class _TodosState extends State<Todos> {
         ),
       ],
     );
-  }
-
-  Widget _loading(BuildContext context) {
-    return Container(
-        alignment: Alignment.center, child: CircularProgressIndicator());
-  }
-
-  Widget _jogoCard(BuildContext context, int index) {
-    String nome = _listaJogos.elementAt(index).nome;
-    String data = _listaJogos.elementAt(index).data;
-    String background = _listaJogos.elementAt(index).background ??
-        "https://arcadaweb.com.br/img/cardnotfound.jpg";
-    //var valor = _listaJogos.values.elementAt(index)["buy"];
-
-    return Container(
-        height: 200,
-        child: InkWell(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      JogoDetalhe(_listaJogos.elementAt(index)))),
-          child: Card(
-            color: Color.fromRGBO(26, 40, 65, 1),
-            margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            elevation: 15,
-            child: Stack(
-              children: <Widget>[
-                Image.network(
-                  background,
-                  fit: BoxFit.cover,
-                  height: double.infinity,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                ),
-                Positioned(
-                    bottom: 10,
-                    left: 10,
-                    child: Container(
-                        //break line
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Text("$nome",
-                            style: TextStyle(
-                                fontSize: 30,
-                                backgroundColor:
-                                    Color.fromRGBO(0, 0, 0, 0.4))))),
-              ],
-            ),
-          ),
-        ));
   }
 }
 

@@ -25,12 +25,12 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  http: ^0.12.0+4
-  splashscreen: ^1.2.0
-  carousel_pro: ^1.0.0
-  material_design_icons_flutter: ^4.0.5045
-  url_launcher: ^5.2.5
-  webview_flutter: ^0.3.19+9
+  http: ^0.12.0+4 # Responsavel pelas requisições
+  splashscreen: ^1.2.0 # Responsavel por criar a splash screen
+  carousel_pro: ^1.0.0 # Responsavel pelo carrosel na tela de detalhes
+  material_design_icons_flutter: ^4.0.5045 # pacote de icones (xbox, ps4, steam etc)
+  url_launcher: ^5.2.5 # responsavel por abrir o link em uma webview
+  webview_flutter: ^0.3.19+9 # responsavel pela webview dentro da pagina (youtube por exemplo)
 
   #gradient_text: ^1.0.2
 

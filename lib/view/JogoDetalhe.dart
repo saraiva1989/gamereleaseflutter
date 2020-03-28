@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:game_release/widget/loading.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -10,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'Todos.dart';
-import 'model/GamesModel.dart';
+import '../model/GamesModel.dart';
 
 Retorno _jogo;
 
@@ -71,7 +72,7 @@ class _JogoDetalheState extends State<JogoDetalhe> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _progressBarActive == true
-            ? _loading(context)
+            ? loading(context)
             : Stack(
                 children: <Widget>[
                   SingleChildScrollView(
@@ -163,11 +164,6 @@ class _JogoDetalheState extends State<JogoDetalhe> {
         )
       ],
     ));
-  }
-
-  Widget _loading(BuildContext context) {
-    return Container(
-        alignment: Alignment.center, child: CircularProgressIndicator());
   }
 
   Widget _listaPlataforma(BuildContext context, int index) {
