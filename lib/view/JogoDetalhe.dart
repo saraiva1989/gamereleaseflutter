@@ -253,7 +253,7 @@ class _JogoDetalheState extends State<JogoDetalhe> {
         Container(
           height: 500,
           child: Image.network(
-            _jogo.background,
+            _jogo.background ?? "https://arcadaweb.com.br/img/cardnotfound.jpg",
             fit: BoxFit.cover,
             height: double.infinity,
             width: double.infinity,

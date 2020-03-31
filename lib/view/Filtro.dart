@@ -36,7 +36,7 @@ class _FiltroState extends State<Filtro> {
   voltar() {
     String filtro;
     if (_nome.text != null && _nome.text != "") {
-      filtro = "order=released&nome=${_nome.text}";
+      filtro = "nome=${_nome.text}";
     } else {
       filtro =
           "order=released&datainicio=${_dataInicio.text ?? ""}&datafim=${_dataFim.text ?? ""}&plataforma=$_console";

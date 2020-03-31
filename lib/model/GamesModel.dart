@@ -45,7 +45,7 @@ class Retorno {
   double nota;
   int qtdvotacao;
   int metacritic;
-  int score;
+  String score;
   String descricaohtml;
   String descricao;
   String website;

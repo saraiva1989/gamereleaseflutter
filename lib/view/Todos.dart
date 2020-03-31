@@ -138,7 +138,7 @@ class _TodosState extends State<Todos> {
                     //atualiza a pagina quando puxar a lista para cima
                     child: RefreshIndicator(
                       onRefresh: () => getGames(false, false),
-                      child: _listaJogos.length == 0
+                      child: _listaJogos == null || _listaJogos.length == 0
                           ? Text(
                               "Game not found!",
                               style: TextStyle(fontSize: 26),
