@@ -2,6 +2,7 @@ import 'dart:convert';
 //import 'dart:html' as html;
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:game_release/helper/DB/FavoritosDB.dart';
 import 'package:game_release/helper/ValidaConexao.dart';
 import 'package:game_release/widget/loading.dart';
 import 'package:game_release/widget/semConexao.dart';
@@ -27,9 +28,28 @@ class JogoDetalhe extends StatefulWidget {
 class _JogoDetalheState extends State<JogoDetalhe> {
   bool _progressBarActive = true;
   bool _statusConexao = true;
+  bool _favoritado = false;
   List<NetworkImage> _listaFotos = List<NetworkImage>();
   voltar() {
     Navigator.pop(context);
+  }
+
+  favoritos() async {
+    FavoritosDB favoritosDB = new FavoritosDB();
+    var consultar = await favoritosDB.consultarId(_jogo.id);
+    if (consultar.length > 0) {
+      favoritosDB.deletar(_jogo.id);
+      setState(() {
+        _favoritado = false;
+      });
+      //favoritosDB.deletarbanco();
+      return;
+    }
+    String json = jsonEncode(_jogo.toJson());
+    favoritosDB.inserir(_jogo.id, json);
+    setState(() {
+        _favoritado = true;
+      });
   }
 
   Future<Null> getGameDetalhe() async {
@@ -66,6 +86,14 @@ class _JogoDetalheState extends State<JogoDetalhe> {
   @override
   void initState() {
     super.initState();
+    FavoritosDB favoritosDB = new FavoritosDB();
+    favoritosDB.consultarId(_jogo.id).then((retorno) {
+      if (retorno.length > 0) {
+        setState(() {
+          _favoritado = true;
+        });
+      }
+    });
     getGameDetalhe();
     if (_jogo.fotos.length == 0)
       _listaFotos
@@ -105,6 +133,13 @@ class _JogoDetalheState extends State<JogoDetalhe> {
                         child: IconButton(
                             icon: Icon(Icons.arrow_back_ios),
                             onPressed: () => voltar()),
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 30, 10, 0),
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                            icon: _favoritado == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
+                            onPressed: () => favoritos()),
                       ),
                     ],
                   ));
