@@ -85,7 +85,7 @@ class _FiltroState extends State<Filtro> {
   Widget _pesquisaNome(BuildContext context) {
     return TextFormField(
       controller: _nome,
-      keyboardType: TextInputType.datetime,
+      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Optional: Input game name",
       ),

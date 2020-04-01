@@ -165,7 +165,8 @@ class _JogoDetalheState extends State<JogoDetalhe> {
         children: <Widget>[
           Container(
             padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: Text(texto, style: TextStyle(fontSize: 25)),
+            width: 140,
+            child: Text(texto, style: TextStyle(fontSize: 20)),
           ),
           Container(
               height: 50,
