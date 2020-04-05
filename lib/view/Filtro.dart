@@ -122,7 +122,7 @@ class _FiltroState extends State<Filtro> {
       value: _console,
       items: [
         DropdownMenuItem<String>(
-          child: Text('Todos'),
+          child: Text('All'),
           value: '',
         ),
         DropdownMenuItem<String>(

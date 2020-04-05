@@ -248,7 +248,7 @@ class _JogoDetalheState extends State<JogoDetalhe> {
 
   Widget _header(BuildContext context) {
     String conteudo =
-        "${_jogo.publishers ?? _jogo.developer ?? ""} - Genero: ${Genero().retornaString(_jogo.generos) ?? ""} \nDate: ${_jogo.data ?? ""}";
+        "${_jogo.publishers ?? _jogo.developer ?? ""} - Genre: ${Genero().retornaString(_jogo.generos) ?? ""} \nDate: ${_jogo.data ?? ""}";
     return Stack(
       children: <Widget>[
         Container(
