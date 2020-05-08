@@ -11,6 +11,8 @@ Não foi disponibilizado para IOS devido ao custo para ter conta na loja. Mas o 
 ## Acesso a API
 Caso queiram baixar esse projeto para estudar, pode entrar em contato comigo que disponibilizo uma chave válida (temporaria) para acessar a api e entender o funcionamento do projeto.
 
+## RODAR NO IOS
+Para rodar no IOS precisa acessar a pasta referente ao ios via terminal e executar o pod install, pois alguns componentes precisam ser instaldos.
 
 ## Getting Started
 
