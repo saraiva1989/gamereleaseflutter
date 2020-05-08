@@ -1,6 +1,16 @@
 # game_release
 
-A new Flutter project.
+Esse projeto foi feito como forma de estudar o funcionamento do flutter. O Aplicativo feito nesse projeto está funcional para android e ios.
+
+# Para ver o projeto em funcionamento
+Para ver o projeto funcionando pode baixar na loja da google https://play.google.com/store/apps/details?id=com.dansontechnology.game_release
+
+Não foi disponibilizado para IOS devido ao custo para ter conta na loja. Mas o projeto está funcional para android e IOS.
+
+
+## Acesso a API
+Caso queiram baixar esse projeto para estudar, pode entrar em contato comigo que disponibilizo uma chave válida (temporaria) para acessar a api e entender o funcionamento do projeto.
+
 
 ## Getting Started
 
