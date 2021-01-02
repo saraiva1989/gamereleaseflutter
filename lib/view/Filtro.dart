@@ -126,6 +126,14 @@ class _FiltroState extends State<Filtro> {
           value: '',
         ),
         DropdownMenuItem<String>(
+          child: Text('PS5'),
+          value: '187',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('Xbox|X/S'),
+          value: '186',
+        ),
+        DropdownMenuItem<String>(
           child: Text('PS4'),
           value: '18',
         ),

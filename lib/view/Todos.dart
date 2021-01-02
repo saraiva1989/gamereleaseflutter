@@ -18,7 +18,7 @@ bool _moreItem = false;
 bool _retornoDetalhe;
 var _filter;
 //header api
-Map<String, String> get headers => {"CHAVE": "576DJKH09KL2342VCXBZ09B"};
+Map<String, String> get headers => {"CHAVE": "XXXVKJFD978FKLJFDIUGLDXXX"};
 TextEditingController plataformaController = TextEditingController();
 
 class Todos extends StatefulWidget {
@@ -54,10 +54,10 @@ class _TodosState extends State<Todos> {
       }
       var next = _gamesModel.next.replaceAll("&", "%26");
       return _urlBase =
-          "http://arcadaweb.com.br/api/gamerelease/listagames.php?next=$next";
+          "https://saraiva89.com/dev/api/gamerelease/listagames.php?next=$next";
     }
     if (filter && _filter != null && _filter != "") {
-      return "http://arcadaweb.com.br/api/gamerelease/listagames.php?$_filter";
+      return "https://saraiva89.com/dev/api/gamerelease/listagames.php?$_filter";
     } else {
       DateTime dateTimeInicio = new DateTime.now().add(new Duration(days: -92));
       DateTime dateTimeFim = new DateTime.now();
@@ -66,7 +66,7 @@ class _TodosState extends State<Todos> {
       String dataFim =
           "${dateTimeFim.year.toString()}-${dateTimeFim.month.toString().padLeft(2, '0')}-${dateTimeFim.day.toString().padLeft(2, '0')}";
       _urlBase =
-          "http://arcadaweb.com.br/api/gamerelease/listagames.php?datainicio=$dataInicio&datafim=$dataFim&order=-released";
+          "https://saraiva89.com/dev/api/gamerelease/listagames.php?datainicio=$dataInicio&datafim=$dataFim&order=-released";
       return _urlBase;
     }
   }
@@ -125,41 +125,42 @@ class _TodosState extends State<Todos> {
         body: _progressBarActive == true
             ? loading(context)
             : _statusConexao == false
-            ? semConexao()
-            : Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  _header(context),
-                  Container(
-                    //seta o tamanho da tela de acordo com o componente usado.
-                    height: _moreItem == true
-                        ? MediaQuery.of(context).size.height - 192
-                        : MediaQuery.of(context).size.height - 156,
-                    //atualiza a pagina quando puxar a lista para cima
-                    child: RefreshIndicator(
-                      onRefresh: () => getGames(false, false),
-                      child: _listaJogos == null || _listaJogos.length == 0
-                          ? Text(
-                              "Game not found!",
-                              style: TextStyle(fontSize: 26),
-                            )
-                          : ListView.builder(
-                              controller: scrollController,
-                              itemCount: _listaJogos.length,
-                              itemBuilder: (context, index) {
-                                return cardGame(context, index, _listaJogos);
-                              },
-                            ),
-                    ),
-                  ),
-                  _moreItem == true
-                      ? loading(context)
-                      : Text(
-                          "",
-                          style: TextStyle(fontSize: 0.1),
+                ? semConexao()
+                : Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      _header(context),
+                      Container(
+                        //seta o tamanho da tela de acordo com o componente usado.
+                        height: _moreItem == true
+                            ? MediaQuery.of(context).size.height - 192
+                            : MediaQuery.of(context).size.height - 156,
+                        //atualiza a pagina quando puxar a lista para cima
+                        child: RefreshIndicator(
+                          onRefresh: () => getGames(false, false),
+                          child: _listaJogos == null || _listaJogos.length == 0
+                              ? Text(
+                                  "Game not found!",
+                                  style: TextStyle(fontSize: 26),
+                                )
+                              : ListView.builder(
+                                  controller: scrollController,
+                                  itemCount: _listaJogos.length,
+                                  itemBuilder: (context, index) {
+                                    return cardGame(
+                                        context, index, _listaJogos);
+                                  },
+                                ),
                         ),
-                ],
-              ));
+                      ),
+                      _moreItem == true
+                          ? loading(context)
+                          : Text(
+                              "",
+                              style: TextStyle(fontSize: 0.1),
+                            ),
+                    ],
+                  ));
   }
 
   Widget _header(BuildContext context) {

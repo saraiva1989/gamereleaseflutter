@@ -48,8 +48,8 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     String json = jsonEncode(_jogo.toJson());
     favoritosDB.inserir(_jogo.id, json);
     setState(() {
-        _favoritado = true;
-      });
+      _favoritado = true;
+    });
   }
 
   Future<Null> getGameDetalhe() async {
@@ -62,7 +62,7 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     }
     //biblioteca terceiro - http: ^0.12.0+4
     String url =
-        "http://arcadaweb.com.br/api/gamerelease/listagames.php?id=${_jogo.id}";
+        "https://saraiva89.com/dev/api/gamerelease/listagames.php?id=${_jogo.id}";
 
     http.Response response = await http.get(url, headers: headers);
     Map<String, dynamic> retorno = json.decode(response.body);
@@ -96,8 +96,8 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     });
     getGameDetalhe();
     if (_jogo.fotos.length == 0)
-      _listaFotos
-          .add(NetworkImage("https://arcadaweb.com.br/img/cardnotfound.jpg"));
+      _listaFotos.add(NetworkImage(
+          "https://thumbs.dreamstime.com/t/error-page-not-found-pixel-art-bit-objects-retro-game-assets-set-icons-vintage-computer-video-arcades-vector-illustration-136642892.jpg"));
     for (var item in _jogo.fotos) {
       _listaFotos.add(NetworkImage(item.url));
     }
@@ -138,7 +138,9 @@ class _JogoDetalheState extends State<JogoDetalhe> {
                         padding: EdgeInsets.fromLTRB(0, 30, 10, 0),
                         alignment: Alignment.topRight,
                         child: IconButton(
-                            icon: _favoritado == false ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
+                            icon: _favoritado == false
+                                ? Icon(Icons.favorite_border)
+                                : Icon(Icons.favorite),
                             onPressed: () => favoritos()),
                       ),
                     ],
@@ -254,7 +256,8 @@ class _JogoDetalheState extends State<JogoDetalhe> {
         Container(
           height: 500,
           child: Image.network(
-            _jogo.background ?? "https://arcadaweb.com.br/img/cardnotfound.jpg",
+            _jogo.background ??
+                "https://thumbs.dreamstime.com/t/error-page-not-found-pixel-art-bit-objects-retro-game-assets-set-icons-vintage-computer-video-arcades-vector-illustration-136642892.jpg",
             fit: BoxFit.cover,
             height: double.infinity,
             width: double.infinity,
@@ -464,6 +467,10 @@ class _JogoDetalheState extends State<JogoDetalhe> {
     switch (id) {
       case 14:
         return MdiIcons.microsoftXbox;
+      case 187:
+        return MdiIcons.sonyPlaystation;
+      case 186:
+        return MdiIcons.sizeXs;
       case 1:
         return MdiIcons.microsoftXbox;
       case 16:

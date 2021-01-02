@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:game_release/model/GamesModel.dart';
 import 'package:game_release/view/JogoDetalhe.dart';
 
-Widget cardGame(BuildContext context, int index,List<Retorno> _listaJogos) {
+Widget cardGame(BuildContext context, int index, List<Retorno> _listaJogos) {
   String nome = _listaJogos.elementAt(index).nome;
   String background = _listaJogos.elementAt(index).background ??
-      "https://arcadaweb.com.br/img/cardnotfound.jpg";
+      "https://thumbs.dreamstime.com/t/error-page-not-found-pixel-art-bit-objects-retro-game-assets-set-icons-vintage-computer-video-arcades-vector-illustration-136642892.jpg";
   //var valor = _listaJogos.values.elementAt(index)["buy"];
 
   return Container(
